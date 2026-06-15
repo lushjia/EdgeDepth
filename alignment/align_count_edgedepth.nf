@@ -1,16 +1,19 @@
 #!/usr/bin/env nextflow
 
 /*
- * align short-read WGS to a pangenome reference and count edge depth per sample
+ * align WGS to pangenome reference and count edge depth per sample
  */
 
 nextflow.enable.dsl=2
+
 
 // 1. Define parameters
 params.cram_list = "data/samples_list.txt"
 params.b38_ref = "data/GRCh38_full_analysis_set_plus_decoy_hla.fa"
 params.gbz = "data/hprc-v2.0-mc-grch38.gbz"
 params.hapl = "data/hprc-v2.0-mc-grch38.hapl"
+params.edges = "data/hprc-v2.0-mc-grch38.edges.txt" // ensure output edges in same order for each sample
+params.zjoin = "data/zjoin" // path to zjoin executable, used to join output edge depths with all edges
 
 params.outdir = "results"
 
@@ -58,7 +61,7 @@ process count_edge_depth {
     tag "sample ${sample}"
 
     input:
-    tuple val(sample), path(gbz), path(gam)
+    tuple val(sample), path(gbz), path(gam), path(edges), path(zjoin)
 
     output:
     path "${gam.baseName}.depth_per_edge.txt"
@@ -88,6 +91,9 @@ process count_edge_depth {
         print strand1 strand2, depth
     }
     ' >> ${gam.baseName}.depth_per_edge.txt
+
+    # Join output edge depths with all edges, ensureing output edges in same order for each sample
+    ${zjoin} -a ${edges} -b ${gam.baseName}.depth_per_edge.txt -r -e 0 | cut -f3 > ${gam.baseName}.hprc-v2.0-mc-grch38.edge_depth.txt
     """
 }
 
@@ -108,8 +114,7 @@ workflow {
 
     fastq_align(ch_align_input)
 
-    count_edge_depth(fastq_align.out.align_result)
+    count_edge_depth(fastq_align.out.align_result, file(params.edges), file(params.zjoin))
 
 }
-
 
