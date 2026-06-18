@@ -45,13 +45,13 @@ process fastq_align {
     script:
     """
     TMPDIR="tmp"
-    mkdir -p $TMPDIR
+    mkdir -p \$TMPDIR
     # k-mer counting
-    echo ${fq1} >> $TMPDIR/${samp}.fastq.lst
-    echo ${fq2} >> $TMPDIR/${samp}.fastq.lst
-    kmc -k29 -m128 -okff -t${task.cpus} -hp @${TMPDIR}/${samp}.fastq.lst ${TMPDIR}/${samp} ${TMPDIR}
+    echo ${fq1} >> \$TMPDIR/${samp}.fastq.lst
+    echo ${fq2} >> \$TMPDIR/${samp}.fastq.lst
+    kmc -k29 -m128 -okff -t${task.cpus} -hp @\${TMPDIR}/${samp}.fastq.lst \${TMPDIR}/${samp} \${TMPDIR}
     # align to pangenome graph
-    vg haplotypes -v 2 -t ${task.cpus} --include-reference --diploid-sampling -i ${hapl} -k ${TMPDIR}/${samp}.kff -g ${samp}.gbz ${gbz}
+    vg haplotypes -v 2 -t ${task.cpus} --include-reference --diploid-sampling -i ${hapl} -k \${TMPDIR}/${samp}.kff -g ${samp}.gbz ${gbz}
     vg giraffe -p -t ${task.cpus} -Z ${samp}.gbz -f ${fq1} -f ${fq2} --fragment-mean ${insert_size} --fragment-stdev ${std} -o gam > ${samp}.hprc-v2.0-mc-grch38.gam
     """
 }
@@ -114,7 +114,11 @@ workflow {
 
     fastq_align(ch_align_input)
 
-    count_edge_depth(fastq_align.out.align_result, file(params.edges), file(params.zjoin))
+    ch_count_input = fastq_align.out.align_result.map { sample, gbz, gam ->
+        tuple(sample, gbz, gam, file(params.edges), file(params.zjoin))
+    }
+
+    count_edge_depth(ch_count_input)
 
 }
 
