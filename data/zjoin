@@ -1,0 +1,124 @@
+#!/usr/bin/env python3
+
+import sys
+import gzip
+from optparse import OptionParser
+
+def open_file(filename, mode='rt'):
+    """Open a file normally or as a gzipped file based on its extension."""
+    if filename.endswith('.gz'):
+        return gzip.open(filename, mode)
+    else:
+        return open(filename, mode)
+
+def zjoin(aFile, bFile, aCol, bCol, notA, delim, allRows, emptyFill):    
+    bCol = bCol - 1
+    aCol = aCol - 1    
+    bDict = {}        
+
+    if bFile == "stdin":
+        bData = sys.stdin
+    else:
+        bData = open_file(bFile, 'rt')
+
+    for bLine in bData:
+        b = bLine.strip().split(delim)
+        fakeCols = [emptyFill for _ in range(len(b))]
+
+        try:
+            if b[bCol] in bDict:
+                bDict[b[bCol]].append(b)
+            else:
+                bDict[b[bCol]] = [b]
+        except IndexError as e:
+            print("Column " + str(bCol+1) + " does not exist in file b:", file=sys.stderr)
+            print(bLine, file=sys.stderr)
+            return 2
+
+    if bFile != "stdin":
+        bData.close()
+
+    # similarly for aFile:
+
+    if aFile == "stdin":
+        aData = sys.stdin
+    else:
+        aData = open_file(aFile, 'rt')
+
+    for aLine in aData:
+        a = aLine.strip().split(delim)    
+        try:
+            if a[aCol] in bDict:
+                if not notA: 
+                    for b in bDict[a[aCol]]:
+                        print(delim.join(a) + delim + delim.join(b))
+            elif allRows:
+                print(delim.join(a) + delim +  delim.join(fakeCols))
+            else:
+                if notA:
+                    print(delim.join(a))
+        except IndexError as e:
+            print("Column " + str(aCol+1) + " does not exist in file a:", file=sys.stderr)
+            print(aLine, file=sys.stderr)
+            return 2
+    if aFile != "stdin":
+        aData.close()
+
+
+class Usage(Exception):
+    def __init__(self, msg):
+        self.msg = msg        
+
+def main():
+    usage = """%prog -a <aFile>  -b <aFile>  -1 <aFile>  -2 <aFile>  -d <aFile>
+
+zjoin version 1.2
+Authors: Aaron Quinlan and Ira Hall    
+join substitute
+    """
+    parser = OptionParser(usage)
+    
+    parser.add_option("-a", "--aFile", dest="aFile", 
+        help="A file or standard input (-a stdin). This file is processed line by line",
+        metavar="FILE")
+    
+    parser.add_option("-b", "--bFile", dest="bFile", 
+        help="A file or standard input (-b stdin). This file is loaded into memory - use smaller file",
+        metavar="FILE")
+
+    parser.add_option("-1", "--aCol", dest="aCol", default=1, type="int",
+        help="the colum for the a file.",
+        metavar="INT")
+    
+    parser.add_option("-2", "--bCol", dest="bCol", default=1, type="int",
+        help="the column for the b file",
+        metavar="INT")
+    
+    parser.add_option("-d", "--delim", dest="delim", default="\t", type="str",
+        help="the delimiter; default = tab",
+        metavar="STR")
+
+    parser.add_option("-v", "--notA", action="store_true", dest="notA",
+        help="print all rows in aFile that do not join with bFile")
+
+    parser.add_option("-r", "--allRows", action="store_true", dest="allRows",
+        help="print all rows in aFile; if match, add B cols; if not, add NA (or text specified by -f)")
+
+    parser.add_option("-e", "--emptyFill", dest="emptyFill", default="NA", type="str",
+        help="what to fill empty columns with when -r is used; default = NA",
+        metavar="STR")
+
+    (opts, args) = parser.parse_args()
+
+    if opts.aFile is None:
+        parser.print_help()
+        print
+    else:
+        try:
+            zjoin(opts.aFile, opts.bFile, opts.aCol, opts.bCol, opts.notA, opts.delim, opts.allRows, opts.emptyFill)
+        except IOError as err:
+            sys.stderr.write("IOError " + str(err) + "\n");
+            return
+
+if __name__ == "__main__":
+    sys.exit(main())

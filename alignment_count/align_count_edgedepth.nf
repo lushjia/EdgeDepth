@@ -93,7 +93,7 @@ process count_edge_depth {
     ' >> ${gam.baseName}.depth_per_edge.txt
 
     # Join output edge depths with all edges, ensureing output edges in same order for each sample
-    ${zjoin} -a ${edges} -b ${gam.baseName}.depth_per_edge.txt -r -e 0 | cut -f3 > ${gam.baseName}.hprc-v2.0-mc-grch38.edge_depth.txt
+    ./${zjoin} -a ${edges} -b ${gam.baseName}.depth_per_edge.txt -r -e 0 | cut -f3 > ${gam.baseName}.hprc-v2.0-mc-grch38.edge_depth.txt
     """
 }
 
