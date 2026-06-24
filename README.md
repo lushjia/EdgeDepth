@@ -2,7 +2,7 @@
 
 Trait association analysis using variants (edges) from a human pangenome reference.
 This repository contains a set of Nextflow pipelines that take short-read WGS data,
-align it to a pangenome graph, and produce a filtered, normalized, allele balance replaced per-edge depth
+align it to a pangenome graph, and produce a filtered, normalized, allele balance replaced edge depth
 matrix ready for downstream trait association analysis.
 
 The pipeline is organized as five sequential steps, each in its own numbered folder.
