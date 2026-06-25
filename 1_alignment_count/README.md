@@ -25,7 +25,7 @@ nextflow run align_count_edgedepth.nf \
 	--hapl toy.hapl \
 	--edges toy.edges.tsv \
 	--zjoin data/zjoin \
-	--outdir results_toy 2>&1 | tail -100
+	--outdir results_toy
 ```
 Add `-resume`to resume from cached work after a failed or interrupted run.
 
