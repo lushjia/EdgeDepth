@@ -19,11 +19,11 @@ This pipeline performs the following steps:
 nextflow run align_count_edgedepth.nf \
   -ansi-log false \
 	-profile mccleary \
-	--cram_list data/toy/samples_insertsize.txt \
-	--b38_ref data/GRCh38_full_analysis_set_plus_decoy_hla.fa \
-	--gbz data/toy/toy.gbz \
-	--hapl data/toy/toy.hapl \
-	--edges data/toy/toy.edges.tsv \
+	--cram_list samples_insertsize.txt \
+	--b38_ref GRCh38_full_analysis_set_plus_decoy_hla.fa \
+	--gbz toy.gbz \
+	--hapl toy.hapl \
+	--edges toy.edges.tsv \
 	--zjoin data/zjoin \
 	--outdir results_toy 2>&1 | tail -100
 ```
