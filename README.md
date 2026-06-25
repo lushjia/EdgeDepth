@@ -1,51 +1,43 @@
 # EdgeDepth
 
-Trait association analysis using variants (edges) from a human pangenome reference.
-This repository contains a set of Nextflow pipelines that take short-read WGS data,
-align it to a pangenome graph, and produce a filtered, normalized, allele balance replaced edge depth
-matrix ready for downstream trait association analysis.
+EdgeDepth is a pipeline for measuring genotype information of pangenome graph-based variants from short-read sequencing data using graph features (edges). The resulting edge depth matrix can be used in downstream trait association analyses, including eQTL, caQTL, and other molecular or complex trait studies (GWAS). 
 
-The pipeline is organized as five sequential steps, each in its own numbered folder.
-Each step's output feeds directly into the next step's input — run them in order.
+**Input**: short-read WGS + pangenome graph        
+**Output**: A filtered edge-by-sample matrix containing filtered, normalized edge-depth values, or allele-balance values for edges represented biallelic variants
 
 ## Pipeline overview
 
 ```
 1_alignment_count
-    WGS CRAM align to pangenome graph (vg giraffe)
+    WGS CRAM align to pangenome graph 
         -> raw edge depth x sample matrix
 
 2_normalization
-    size-factor normalization across samples
+    normalized edge depth across samples
         -> normalized edge depth x sample matrix
 
 3_redundancy_filter
-    select representative edges (removes redundant edges)
+    select representative edges (remove redundant edges)
         -> representative edge depth (norm) x sample matrix
 
 4_variable_edge_filter
-    alignment depth/GMM/outlier filters keep only variable edges
+    keep only variable edges (alignment depth/GMM/outlier filters )
         -> variable edge depth (norm) x sample matrix
 
 5_biallelic_AB
-    for simple biallelic variants, replace edge depth with allele balance
+    replace edge depth with allele balance for simple biallelic variants
         -> variable edge [depth (norm) or allele balance] x sample matrix
 ```
 
+To do: diagram 
 
 ## Requirements
 - [Nextflow](https://www.nextflow.io/) (DSL2)
-- A Slurm cluster profile (`mccleary`) and container profiles (`docker`/`singularity`/`apptainer`) are
-  defined in each step's `nextflow.config` — adjust `executor`/`queue`/`clusterOptions` for your own cluster.
+- singularity
+- A cluster profile (`mccleary`) — adjust `executor`/`queue`/`clusterOptions` for your own cluster in `nextflow.config`.
 
 ## How to run
 Each step folder has its own `README.md` with that step's specific run command and information.
-
-## Output
-
-The final output of the full pipeline is edge by sample matrix
-edges pass all filters with normalzied edge depth or allele balance if the variants is a biallelic variant. 
-convert to vcf 
 
 ## Toy example
 
