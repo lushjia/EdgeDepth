@@ -9,11 +9,11 @@ EdgeDepth is a pipeline for measuring genotype information of pangenome graph-ba
 
 ```
 1_alignment_count
-    WGS CRAM align to pangenome graph 
-        -> raw edge depth x sample matrix
+    align WGS to pangenome graph
+        -> raw edge depth count x sample matrix
 
 2_normalization
-    normalized edge depth across samples
+    normalize edge depth across samples
         -> normalized edge depth x sample matrix
 
 3_redundancy_filter
