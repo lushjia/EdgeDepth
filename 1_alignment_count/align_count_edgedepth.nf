@@ -64,7 +64,7 @@ process count_edge_depth {
     tuple val(sample), path(gbz), path(gam), path(edges), path(zjoin)
 
     output:
-    path "${gam.baseName}.depth_per_edge.txt"
+    path "${gam.baseName}.edge_depth.txt"
 
     script:
     """
@@ -93,7 +93,7 @@ process count_edge_depth {
     ' >> ${gam.baseName}.depth_per_edge.txt
 
     # Join output edge depths with all edges, ensureing output edges in same order for each sample
-    ./${zjoin} -a ${edges} -b ${gam.baseName}.depth_per_edge.txt -r -e 0 | cut -f3 > ${gam.baseName}.hprc-v2.0-mc-grch38.edge_depth.txt
+    ./${zjoin} -a ${edges} -b ${gam.baseName}.depth_per_edge.txt -1 2 -2 1 -r -e 0 | cut -f4 > ${gam.baseName}.edge_depth.txt
     """
 }
 
