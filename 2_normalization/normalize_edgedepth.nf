@@ -14,7 +14,6 @@
 
 nextflow.enable.dsl=2
 
-params.samples_list  = "data/samples_list.txt"               // plain text, one sample name per line
 params.edges         = "data/hprc-v2.0-mc-grch38.edges.txt"  // reference edge list (chr + edge_id columns)
 params.depth_dir     = "results"                             // dir containing per-sample *.edge_depth.txt files
 params.scripts_dir   = "scripts"                           // path to Python normalization scripts
@@ -26,13 +25,14 @@ params.outdir        = "results"
 // ---------------------------------------------------------------------------
 // Uses bash process substitution to prepend the sample name as a column header
 // to each depth file before pasting alongside the edge reference columns.
+// Sample names are derived from the depth filenames themselves (not a sample list),
+// so the file set actually present in depth_dir is authoritative.
 process combine_depths {
     publishDir params.outdir, mode: 'copy'
 
     input:
     path(depth_files)   // all per-sample depth files, collected into the work dir
     path(edges)
-    path(samples_list)
 
     output:
     path "all_sample.hprc-v2.0-mc-grch38.edge_depth.txt", emit: merged
@@ -40,9 +40,10 @@ process combine_depths {
     script:
     """
     cmd="paste ${edges}"
-    while IFS= read -r sample; do
-        cmd="\${cmd} <(echo \"\${sample}\"; cat \"\${sample}.hprc-v2.0-mc-grch38.edge_depth.txt\")"
-    done < ${samples_list}
+    for f in ${depth_files}; do
+        sample=\$(basename "\${f}" .hprc-v2.0-mc-grch38.edge_depth.txt)
+        cmd="\${cmd} <(cat \"\${f}\")"
+    done
     eval "\${cmd}" > all_sample.hprc-v2.0-mc-grch38.edge_depth.txt
     """
 }
@@ -101,8 +102,7 @@ workflow {
 
     combine_depths(
         ch_depth_files,
-        file(params.edges),
-        file(params.samples_list)
+        file(params.edges)
     )
 
     calc_size_factors(
