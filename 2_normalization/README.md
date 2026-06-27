@@ -32,7 +32,8 @@ Add `-resume`to resume from cached work after a failed or interrupted run.
 | --depth_dir | Directory | Directory containing the per-sample *.edge_depth.txt files generated in Step 1. |
 | --scripts_dir | scripts directory | Directory containing the Python scripts used for normalization. |
 
-edge list: The edge list is the file as the edge list used in Step 1.
+edge list: The edge list file is the same as the one used in Step 1.
+
 
 ## Output file
 The pipeline outputs two edge-by-sample matrices:
