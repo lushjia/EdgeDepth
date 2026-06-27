@@ -27,8 +27,7 @@
 nextflow.enable.dsl=2
 
 params.norm_depth_dir = "data"     // dir with {chrom}.independent_edge_list.normalized_depth.txt
-params.gmmscript      = "compute_gmm.R"   // path to GenomeSTRiP GMM-fitting R script
-params.scripts_dir     = "scripts"  // dir containing the Python filter scripts
+params.scripts_dir     = "scripts"  // dir containing the filter scripts (Python + compute_gmm.R)
 params.outdir          = "results"
 
 // filter0: minimum depth and minimum sample count
@@ -246,7 +245,7 @@ workflow {
 
     gmm_filter(
         ch_chunks,
-        file(params.gmmscript),
+        file("${params.scripts_dir}/compute_gmm.R"),
         file("${params.scripts_dir}/filter_edge_genomeSTRiP.split.py")
     )
 

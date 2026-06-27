@@ -96,7 +96,7 @@ with open(args.pass_out, 'w') as keep_f:
         nclusters = math.ceil(np.max(x) / args.expected_depth)
 
         # max <= expected_depth, unable to fit — filter out
-        if nclusters == 1:
+        if nclusters <= 1:
             filter_edge.append(f'{edge_id}\t1cluster')
             continue
 
