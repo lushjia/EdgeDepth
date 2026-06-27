@@ -1,6 +1,6 @@
 # EdgeDepth
 
-EdgeDepth is a pipeline for measuring genotype information of pangenome graph-based variants from short-read sequencing data using graph features (edges). The resulting edge depth matrix can be used in downstream trait association analyses, including eQTL, caQTL, and other molecular or complex trait studies (GWAS). 
+EdgeDepth is a Nextflow pipeline for measuring genotype information of pangenome graph-based variants from short-read sequencing data using graph features (edges). The resulting edge depth matrix can be used in downstream trait association analyses, including eQTL, caQTL, and other molecular or complex trait studies (GWAS). 
 
 **Input**: short-read WGS + pangenome graph        
 **Output**: A filtered edge-by-sample matrix containing filtered, normalized edge-depth values, or allele-balance values for edges represented biallelic variants
