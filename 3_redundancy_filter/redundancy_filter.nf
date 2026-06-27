@@ -31,7 +31,6 @@ params.scripts_dir = "scripts"                         // dir containing the Pyt
 params.outdir      = "results"
 params.dp50_threshold = 15 * 1024 * 1024  // file size (bytes) above which dp50 script is used
 
-
 // ---------------------------------------------------------------------------
 // Step 0: split genome-wide depth matrices into per-chromosome gzipped files
 // ---------------------------------------------------------------------------
@@ -174,7 +173,13 @@ process filter_normalized_depth {
 // Workflow
 // ---------------------------------------------------------------------------
 workflow {
-    ch_chroms = Channel.fromList(params.chroms)
+    // --chroms may arrive as the default List, or (from the CLI) as a single
+    // String like "chr21" or a comma-separated String like "chr21,chr22"
+    def chroms_list = (params.chroms instanceof List)
+        ? params.chroms
+        : params.chroms.toString().split(',').collect { it.trim() }
+
+    ch_chroms = Channel.fromList(chroms_list)
 
     // Step 0: split genome-wide depth matrices into per-chromosome gzipped files,
     // one split job per chromosome, so every downstream step reads only its own data
