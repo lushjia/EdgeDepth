@@ -16,11 +16,11 @@ This pipeline performs the following steps:
 nextflow run align_count_edgedepth.nf \
   -ansi-log false \
 	-profile mccleary \
-	--samples_list samples_list.txt \
 	--edges hprc-v2.0-mc-grch38.edges.txt \
-	--depth_dir results \
+	--depth_dir ../1_alignment_count/results \
 	--scripts_dir scripts \
-	--outdir results_toy
+	--outdir results
+
 ```
 Add `-resume`to resume from cached work after a failed or interrupted run.
 
@@ -28,17 +28,10 @@ Add `-resume`to resume from cached work after a failed or interrupted run.
 ## Required input data
 | Parameter | Input type | Description |
 |:----|:------|:----------|
-| --samples_list | Plain text | File containing one sample name per line. |
 | --edges | Edge list | Tab-separated file containing chromosome and edge IDs. <br>This file defines the edge order in the step 1 output. |
 | --depth_dir | Directory | Directory containing the per-sample *.edge_depth.txt files generated in Step 1. |
 | --scripts_dir | scripts directory | Directory containing the Python scripts used for normalization. |
 
-
-Example sample list 
-```
-HG02976
-HG03130
-```
 edge list: The edge list is the file as the edge list used in Step 1.
 
 ## Output file
