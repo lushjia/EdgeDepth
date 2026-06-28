@@ -15,9 +15,9 @@ Outputs:
 
 Usage:
     python rescue_edge_4mad.py \\
-        --depth      chr21.normalized_edge_depth.txt \\ # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/bubble_puncture/{chr}.independent.filter0.filter1000.txt
-        --fail       chr21.notpass_filter_genomeSTRiP.txt \\ # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/bubble_puncture/split/{chr}.notpass_filter_genomeSTRiP.txt
-        --info_out   chr21.notpass_filter_genomeSTRiP.4mad.info.txt \\ # {chr}.notpass_filter_genomeSTRiP.4mad.info.txt
+        --depth      chr21.normalized_edge_depth.txt \\ 
+        --fail       chr21.notpass_filter_genomeSTRiP.txt \\ 
+        --info_out   chr21.notpass_filter_genomeSTRiP.4mad.info.txt \\
         --rescued_out chr21.rescued_edges.txt
 """
 
