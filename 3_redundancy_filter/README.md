@@ -31,11 +31,11 @@ Add `-resume` to resume from cached work after a failed or interrupted run.
 ## Required input data
 | Parameter | Input type | Description |
 |:----|:------|:----------|
-| --edges | Edge list | Tab-separated file containing chromosome and edge IDs. <br>This is the same edge list file used in Step 1.|
-| --depth | Edge-by-sample matrix | Raw edge-depth matrix generated in Step 2. |
-| --norm_depth | Edge-by-sample matrix | Normalized edge-depth matrix generated in Step 2. |
-| --gfa_dir | Directory | Directory containing per-chromosome pangenome graph files in GFA format. | 
-| --scripts_dir |	Scripts directory	| Directory containing the Python scripts used in this step. |
+| `--edges` | Edge list | Tab-separated file containing chromosome and edge IDs. <br>This is the same edge list file used in Step 1.|
+| `--depth` | Edge-by-sample matrix | Raw edge-depth matrix generated in Step 2. |
+| `--norm_depth` | Edge-by-sample matrix | Normalized edge-depth matrix generated in Step 2. |
+| `--gfa_dir` | Directory | Directory containing per-chromosome pangenome graph files in GFA format. | 
+| `--scripts_dir` |	Scripts directory	| Directory containing the Python scripts used in this step. |
 
 Note:    
 --edges: This is the same edge list file used in Step 1.    
