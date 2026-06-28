@@ -38,8 +38,8 @@ Add `-resume` to resume from cached work after a failed or interrupted run.
 | `--scripts_dir` |	Scripts directory	| Directory containing the Python scripts used in this step. |
 
 Note:    
---edges: This is the same edge list file used in Step 1.    
---gfa_dir: This directory should contain one GFA file per chromosome. Files should be named using the format chr1.gfa, chr2.gfa, ..., chr22.gfa.
+`--edges`: This is the same edge list file used in Step 1.    
+`--gfa_dir`: This directory should contain one GFA file per chromosome. Files should be named using the format chr1.gfa, chr2.gfa, ..., chr22.gfa.
 
 ## Output file
 The pipeline produces the following outputs:     
