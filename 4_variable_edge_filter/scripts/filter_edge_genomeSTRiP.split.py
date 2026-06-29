@@ -15,7 +15,7 @@ Edges failing the filter are written to --fail_out with columns:
 Usage:
     python filter_edge_genomeSTRiP.split.py \\
         --input            chr1.chunk_gd \\
-        --gmmscript        compute_gmm.R \\ # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/sample_430/edge_fix/monomorphic_check/genomestrip_gmm/compute_gmm.R edge1
+        --gmmscript        compute_gmm.R \\
         --pass_out         chr1.chunk_gd.pass.txt \\  # filter_genomeSTRiP.txt 
         --fail_out         chr1.chunk_gd.fail.txt \\ # filter_genomeSTRiP.filtered_id.txt
         --expected_depth   17 \\

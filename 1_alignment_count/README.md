@@ -32,12 +32,12 @@ Add `-resume`to resume from cached work after a failed or interrupted run.
 ## Required input data
 | Parameter | Input type | Description |
 |:----|:------|:----------|
-| --cram_list | Sample table | Path to a table listing short-read WGS CRAM files, <br>insert-size and corresponding standard deviation (std) information. |
-| --b38_ref | FASTA | GRCh38 reference FASTA used to convert CRAM files to FASTQ. |
-| --gbz | GBZ graph | Pangenome reference graph used for read alignment. |
-| --hapl | Haplotype index | Haplotype index file used by `vg giraffe` for haplotype-aware read alignment. |
-| --edges | Edge list | Tab-separated file containing chromosome and edge IDs. <br>This file defines the edge order in the output. | 
-| --zjoin | Join script | Script used to join edge-depth output with the provided edge list, <br>ensuring consistent edge order across samples. | 
+| `--cram_list` | Sample table | Path to a table listing short-read WGS CRAM files, <br>insert-size and corresponding standard deviation (std) information. |
+| `--b38_ref` | FASTA | GRCh38 reference FASTA used to convert CRAM files to FASTQ. |
+| `--gbz` | GBZ graph | Pangenome reference graph used for read alignment. |
+| `--hapl` | Haplotype index | Haplotype index file used by `vg giraffe` for haplotype-aware read alignment. |
+| `--edges` | Edge list | Tab-separated file containing chromosome and edge IDs. <br>This file defines the edge order in the output. | 
+| `--zjoin` | Join script | Script used to join edge-depth output with the provided edge list, <br>ensuring consistent edge order across samples. | 
 
 Example sample table
 ```

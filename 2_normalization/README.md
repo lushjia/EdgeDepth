@@ -28,11 +28,11 @@ Add `-resume`to resume from cached work after a failed or interrupted run.
 ## Required input data
 | Parameter | Input type | Description |
 |:----|:------|:----------|
-| --edges | Edge list | Tab-separated file containing chromosome and edge IDs. <br>This file defines the edge order in the step 1 output. |
-| --depth_dir | Directory | Directory containing the per-sample *.edge_depth.txt files generated in Step 1. |
-| --scripts_dir | scripts directory | Directory containing the Python scripts used for normalization. |
+| `--edges` | Edge list | Tab-separated file containing chromosome and edge IDs. <br>This file defines the edge order in the step 1 output. |
+| `--depth_dir` | Directory | Directory containing the per-sample *.edge_depth.txt files generated in Step 1. |
+| `--scripts_dir` | scripts directory | Directory containing the Python scripts used for normalization. |
 
---edges: The edge list file is the same as the one used in Step 1.
+`--edges`: The edge list file is the same as the one used in Step 1.
 
 
 ## Output file
