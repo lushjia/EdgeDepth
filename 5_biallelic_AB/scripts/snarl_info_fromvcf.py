@@ -7,13 +7,13 @@ nearest ancestor snarl's traversal when a snarl has none directly), and derives
 the edge set implied by each traversal.
 
 Input:
-    --vcf    : VCF recording allele traversals (AT INFO field), one chromosome # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/coordinate/hprc-v2.0-mc-grch38.raw.$chr.sorted.vcf.gz
-    --snarls : snarl JSON (genome-wide; filtered here to nodes in --gfa) # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/graph/hprc-v2.0-mc-grch38.snarls.json
-    --gfa    : chromosome GFA file; node IDs are read from "S" lines (column 2) # /vast/palmer/pi/hall/wl474/projects/hprc_r2/edge_read_depth/chroms/chr21.gfa
+    --vcf    : VCF recording allele traversals (AT INFO field), one chromosome 
+    --snarls : snarl JSON (genome-wide; filtered here to nodes in --gfa) 
+    --gfa    : chromosome GFA file; node IDs are read from "S" lines (column 2) 
 
 Output:
     --out : snarl_id, parent_id, level, traversal(s), edge(s) - one row per snarl
-            (traversal/edge are comma-separated; "None" if no traversal found) # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/filter/$chr.snarl_ps_lv_at_edge.txt
+            (traversal/edge are comma-separated; "None" if no traversal found) 
 
 Usage:
     python snarl_info_fromvcf.py \\

@@ -27,7 +27,7 @@ Output:
 
 Usage:
     python compute_edge_nonredundant_AB.py \\
-        --edge_raw     chr1.hprc-v2.0-mc-grch38.depth_per_edge.added_chroms.txt.gz \\ # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/my_filter/$chr.hprc-v2.0-mc-grch38.depth_per_edge.added_chroms.txt
+        --edge_raw     chr1.hprc-v2.0-mc-grch38.depth_per_edge.added_chroms.txt.gz \\ 
         --gfa          chr1.gfa \\
         --snarl_vcf    chr1.snarl_ps_lv_at_edge.high_lv_edge.txt.gz \\
         --snarl_notvcf chr1.snarl_ps_lv_at_edge.not_in_vcf.high_lv_edge.txt.gz \\
@@ -186,15 +186,16 @@ with open_maybe_gzip(args.snarl_vcf) as snarl_invcf, \
             start_node, end_node = line_split[0].split('-')
             # find the kept edge 
             if mid_node1 in b38_node:
-                edge_var1 = node_edge_dict[tuple(sorted((start_node, mid_node2)))] # >30192808>30192810
-                edge_var2 = node_edge_dict[tuple(sorted((mid_node2, end_node)))]
-                edge_b38_1 = node_edge_dict[tuple(sorted((start_node, mid_node1)))]
-                edge_b38_2 = node_edge_dict[tuple(sorted((mid_node1, end_node)))]
+                # edge_var1 = node_edge_dict[tuple(sorted((start_node, mid_node2)))] # >30192808>30192810
+                edge_var1 = node_edge_dict.get(tuple(sorted((start_node, mid_node2))), None) # >30192808>30192810
+                edge_var2 = node_edge_dict.get(tuple(sorted((mid_node2, end_node))), None)
+                edge_b38_1 = node_edge_dict.get(tuple(sorted((start_node, mid_node1))), None)
+                edge_b38_2 = node_edge_dict.get(tuple(sorted((mid_node1, end_node))), None)
             else:
-                edge_var1 = node_edge_dict[tuple(sorted((start_node, mid_node1)))]
-                edge_var2 = node_edge_dict[tuple(sorted((mid_node1, end_node)))]
-                edge_b38_1 = node_edge_dict[tuple(sorted((start_node, mid_node2)))]
-                edge_b38_2 = node_edge_dict[tuple(sorted((mid_node2, end_node)))]
+                edge_var1 = node_edge_dict.get(tuple(sorted((start_node, mid_node1))), None)
+                edge_var2 = node_edge_dict.get(tuple(sorted((mid_node1, end_node))), None)
+                edge_b38_1 = node_edge_dict.get(tuple(sorted((start_node, mid_node2))), None)
+                edge_b38_2 = node_edge_dict.get(tuple(sorted((mid_node2, end_node))), None)
             # if more than 1 edge been kept, cotinue 
             if sum([edge_var1 in kept_edge_bp_set, edge_var2 in kept_edge_bp_set]) != 1:
                 continue
@@ -221,9 +222,9 @@ with open_maybe_gzip(args.snarl_vcf) as snarl_invcf, \
             start_node, end_node = line_split[0].split('-')
             # find the kept edge
             if mid_node in b38_node:
-                edge_var = node_edge_dict[tuple(sorted((start_node, end_node)))]
-                edge_b38_1 = node_edge_dict[tuple(sorted((start_node, mid_node)))]
-                edge_b38_2 = node_edge_dict[tuple(sorted((mid_node, end_node)))]
+                edge_var = node_edge_dict.get(tuple(sorted((start_node, end_node))), None)
+                edge_b38_1 = node_edge_dict.get(tuple(sorted((start_node, mid_node))), None)
+                edge_b38_2 = node_edge_dict.get(tuple(sorted((mid_node, end_node))), None)
 
                 if edge_var not in kept_edge_bp_set:
                     continue
@@ -232,9 +233,9 @@ with open_maybe_gzip(args.snarl_vcf) as snarl_invcf, \
                 edge_b38 = edge_b38_1 if edge_ave_depth[edge_b38_1] > edge_ave_depth[edge_b38_2] else edge_b38_2
                 edge_b38_depth = [int(i) for i in edge_dict[edge_b38]]
             else:
-                edge_var_1 = node_edge_dict[tuple(sorted((start_node, mid_node)))]
-                edge_var_2 = node_edge_dict[tuple(sorted((mid_node, end_node)))]
-                edge_b38 = node_edge_dict[tuple(sorted((start_node, end_node)))]
+                edge_var_1 = node_edge_dict.get(tuple(sorted((start_node, mid_node))), None)
+                edge_var_2 = node_edge_dict.get(tuple(sorted((mid_node, end_node))), None)
+                edge_b38 = node_edge_dict.get(tuple(sorted((start_node, end_node))), None)
 
                 if sum([edge_var_1 in kept_edge_bp_set, edge_var_2 in kept_edge_bp_set]) != 1:
                     continue

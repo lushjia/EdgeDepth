@@ -22,14 +22,13 @@ in the GFA.
 
 Input:
     --snarl_info : step 1 output (snarl_info_fromvcf.py): snarl, parent, level,
-                   traversal, edges - one row per snarl ("None" if no VCF traversal) # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/chr1.snarl_ps_lv_at_edge.txt.gz
+                   traversal, edges - one row per snarl ("None" if no VCF traversal) 
 
-    --gfa        : chromosome GFA file; paths are read from "W" lines # /vast/palmer/pi/hall/wl474/projects/hprc_r2/edge_read_depth/chroms/chr21.gfa
+    --gfa        : chromosome GFA file; paths are read from "W" lines 
 
 Output:
     --out : snarl, parent, level, traversal(s), edge(s) for snarls that had no
-            VCF traversal (same columns as step 1; "None" if still not found) # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/my_filter/chr1.snarl_ps_lv_at_edge.not_in_vcf.txt
-
+            VCF traversal (same columns as step 1; "None" if still not found) 
 Usage:
     python snarl_info_fromgfa.py \\
         --snarl_info chr1.snarl_ps_lv_at_edge.txt.gz \\

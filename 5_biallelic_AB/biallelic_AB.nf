@@ -177,7 +177,11 @@ process replace_edge_with_AB {
 // Workflow
 // ---------------------------------------------------------------------------
 workflow {
-    ch_chroms = Channel.fromList(params.chroms)
+    def chroms_list = (params.chroms instanceof List)
+        ? params.chroms
+        : params.chroms.toString().split(',').collect { it.trim() }
+
+    ch_chroms = Channel.fromList(chroms_list)
 
     // Step 1
     ch_step1_input = ch_chroms.map { chrom ->

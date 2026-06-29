@@ -12,8 +12,8 @@ VCF-derived traversal, and snarls whose traversal was instead recovered from
 GFA paths)
 
 Input:
-    --snarl_vcf     : step 1 output (snarl_info_fromvcf.py) # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/$chr.snarl_ps_lv_at_edge.txt.gz
-    --snarl_notvcf  : step 2 output (snarl_info_fromgfa.py) # /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/my_filter/$chr.snarl_ps_lv_at_edge.not_in_vcf.txt
+    --snarl_vcf     : step 1 output (snarl_info_fromvcf.py) 
+    --snarl_notvcf  : step 2 output (snarl_info_fromgfa.py) 
 
 Output:
     --out_vcf     : --snarl_vcf rows, each with an added column of edges first
