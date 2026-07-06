@@ -85,6 +85,7 @@ $1=="L" {
   the pangenome graph VG file of each chromosome (GRCh38) can be found at: [pangenome graph per chr](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=pangenomes/scratch/2025_02_28_minigraph_cactus/hprc-v2.0-mc-grch38/hprc-v2.0-mc-grch38.chroms/);	            
   the pangenome graph GFA file can be converted from VG by [vg toolkit](https://github.com/vgteam/vg): `vg convert -f chr1.vg > chr1.gfa`
 
+More details about each step and parameter can be found in the Nextflow pipeline.
 
 ## Output format
 The pipeline outputs one file per sample. Each file contains a single column of read-depth values, 
