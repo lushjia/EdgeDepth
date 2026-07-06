@@ -87,8 +87,13 @@ $1=="L" {
 
 More details about each step and parameter can be found in the Nextflow pipeline.
 
+## Intermediate files
+Intermediate files are shown as symbolic links in the output directory. They are stored at work directory, useful for checking intermediate results, but are not used in subsequent steps and can be deleted.
+
+Intermediate files include per-sample haplotype-sampled graph files (`*.gbz`) and sample alignment files to the corresponding sample-specific pangenome graphs (`*.gam`). 	
+
 ## Output format
-The pipeline outputs one file per sample. Each file contains a single column of read-depth values, 
+The pipeline outputs one file per sample (`*.hprc-v2.0-mc-grch38.edge_depth.txt`). Each file contains a single column of read-depth values, 
 with one row per graph edge. The row order follows the input edge list, allowing edge-depth files 
 from multiple samples to be combined into a consistent edge-by-sample matrix in next step.
 
