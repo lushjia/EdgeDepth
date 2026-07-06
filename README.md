@@ -43,3 +43,11 @@ Each step folder has its own `README.md` with that step's specific run command a
 
 A small toy dataset (2-sample CRAMs, a small reference region, and a matching pangenome
 GBZ/HAPL/edges file) will be added to `data/` for quickly testing the pipeline end to end.
+
+## Citation: 
+If you use `EdgeDepth` pipeline in your work, please cite:
+> S. Lu, W.-W. Liao, M. K. DeGorter, P. C. Goddard, J. Ebler, T.-Y. Lu, Human Pangenome Reference Consortium, M. J. P. Chaisson, T. Marschall, S. B. Montgomery, N. O. Stitziel, and I. M. Hall.         
+> Pangenome-based human genome analysis improves trait association and genomic prediction        
+> bioRvix,
+> doi: https://doi.org/10.64898/2026.07.01.735728
+
