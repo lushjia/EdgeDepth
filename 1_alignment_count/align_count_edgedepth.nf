@@ -13,7 +13,7 @@ params.b38_ref = "data/GRCh38_full_analysis_set_plus_decoy_hla.fa"
 params.gbz = "data/hprc-v2.0-mc-grch38.gbz"
 params.hapl = "data/hprc-v2.0-mc-grch38.hapl"
 params.edges = "data/hprc-v2.0-mc-grch38.edges.txt" // ensure output edges in same order for each sample
-params.zjoin = "data/zjoin" // path to zjoin executable, used to join output edge depths with all edges
+params.scripts_dir = "scripts" // folder containing the zjoin executable
 
 params.outdir = "results"
 
@@ -102,7 +102,9 @@ workflow {
     Channel
         .fromPath(params.cram_list)
         .splitCsv(header: true, sep: '\t')
-        .map { row -> tuple(file(row.cram), row.insert_size, row.std) }
+        .map { row -> 
+            def cram_file = file(params.cram_list).parent.resolve(row.cram)
+            tuple(cram_file, row.insert_size, row.std) }
         .set { ch_input_files }
 
     cram2fastq(ch_input_files, file(params.b38_ref)) 
@@ -115,7 +117,7 @@ workflow {
     fastq_align(ch_align_input)
 
     ch_count_input = fastq_align.out.align_result.map { sample, gbz, gam ->
-        tuple(sample, gbz, gam, file(params.edges), file(params.zjoin))
+        tuple(sample, gbz, gam, file(params.edges), file("${params.scripts_dir}/zjoin"))
     }
 
     count_edge_depth(ch_count_input)
