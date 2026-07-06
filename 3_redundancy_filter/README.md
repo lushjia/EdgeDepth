@@ -2,9 +2,10 @@
 This pipeline selects one representative edge per variant allele and remove redundant edges from normalized edge-by-sample matrices 
 generate in step 2. 
 
-The pipeline outputs:    
-A representative edge list file, with one edge per row.     
-A filterd normalzied edge-by-sample matrix containging only the representative edges.     
+The pipeline outputs:
+- A raw edge by sample matrix containging all edge per chromosome
+- A representative edge list file, with one edge per row.     
+- A filterd normalzied edge-by-sample matrix containging only the representative edges.     
 
 
 ## Pipeline overview
@@ -36,10 +37,19 @@ Add `-resume` to resume from cached work after a failed or interrupted run.
 | `--norm_depth` | Edge-by-sample matrix | Normalized edge-depth matrix generated in Step 2. |
 | `--gfa_dir` | Directory | Directory containing per-chromosome pangenome graph files in GFA format. | 
 | `--scripts_dir` |	Scripts directory	| Directory containing the Python scripts used in this step. |
+| `--outdir` | Directory | Directory for output files. |
 
 Note:    
 `--edges`: This is the same edge list file used in Step 1.    
-`--gfa_dir`: This directory should contain one GFA file per chromosome. Files should be named using the format chr1.gfa, chr2.gfa, ..., chr22.gfa.
+`--gfa_dir`: This directory should contain one GFA file per chromosome. Files should be named using the format chr1.gfa, chr2.gfa, ..., chr22.gfa. The pangenome graph GFA file per chromosome can be converted from [per chromosome VG](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=pangenomes/scratch/2025_02_28_minigraph_cactus/hprc-v2.0-mc-grch38/hprc-v2.0-mc-grch38.chroms/) by [vg toolkit](https://github.com/vgteam/vg): `vg convert -f chr1.vg > chr1.gfa`
+
+## Additional editable parameters
+| Parameter | Input type | Description |
+|:----|:------|:----------|
+| `--chroms` | Chromosome list | Chromosomes to process. Provide a single chromosome, such as chr21, <br>or a comma-separated list, such as chr21,chr22. If not specified, <br>the default is chromosomes 1–22.|
+| `--dp50_threshold` | Integer | File size threshold, in bytes, above which a faster/approximate script is used to <br>identify independent edges from the subgraph; Default: 15 * 1024 * 1024. |
+
+More details about each step and parameter can be found in the Nextflow pipeline.
 
 ## Output file
 The pipeline produces the following outputs:     
