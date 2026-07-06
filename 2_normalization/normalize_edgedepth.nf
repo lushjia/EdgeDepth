@@ -98,6 +98,7 @@ workflow {
     // Collect all per-sample edge depth files from the depth directory
     ch_depth_files = Channel
         .fromPath("${params.depth_dir}/*.hprc-v2.0-mc-grch38.edge_depth.txt")
+        .filter { it.name != "all_sample.hprc-v2.0-mc-grch38.edge_depth.txt" }
         .collect()
 
     combine_depths(
