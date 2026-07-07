@@ -72,7 +72,7 @@ process split_norm_depth_by_chrom {
 // ---------------------------------------------------------------------------
 process step1_subgraph {
     tag "${chrom}"
-    publishDir "${params.outdir}/${chrom}", mode: 'copy', pattern: "*.original_bridge_edge.txt"
+    // publishDir "${params.outdir}/${chrom}", mode: 'copy', pattern: "*.original_bridge_edge.txt"
 
     input:
     tuple val(chrom), path(gfa)
