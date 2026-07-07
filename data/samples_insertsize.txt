@@ -1,0 +1,3 @@
+cram	insert_size	std
+cram/HG02976.toy.cram	439	102.299400
+cram/HG03130.toy.cram	432	99.334200
