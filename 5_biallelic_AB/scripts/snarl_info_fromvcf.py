@@ -106,6 +106,9 @@ with open(args.snarls) as f:
         rows.append(row)
 
 input_snarl_df = pd.DataFrame(rows)  # snarl_id, parent_id
+# pandas' default string dtype maps missing parent_id (root snarls) to NaN;
+# restore plain None so downstream `is not None` checks work as intended
+input_snarl_df['parent_id'] = input_snarl_df['parent_id'].astype(object).where(input_snarl_df['parent_id'].notna(), None)
 
 # ---------------------------------------------------------------------------
 # Compute snarl level by BFS from roots (parent-less snarls) downward
@@ -113,9 +116,9 @@ input_snarl_df = pd.DataFrame(rows)  # snarl_id, parent_id
 children_map = defaultdict(list)  # parent -> children
 parents = {}  # snarl -> parent (or None)
 
-for _, row in input_snarl_df.iterrows():
-    snarl_id = row['snarl_id']
-    parent_id = row['parent_id']
+for row in input_snarl_df.itertuples():
+    snarl_id = row.snarl_id
+    parent_id = row.parent_id
     parents[snarl_id] = parent_id
     if parent_id is not None:
         children_map[parent_id].append(snarl_id)
