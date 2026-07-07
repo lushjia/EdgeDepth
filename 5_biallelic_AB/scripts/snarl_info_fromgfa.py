@@ -1,20 +1,4 @@
 """
-find allele traversal (AT) and edge for snarl not in vcf 
-
-Input: 
-    # path each chr 
-    /vast/palmer/scratch/hall/wl474/projects/hprc_r2/edge_read_depth/chroms/chr18.gfa
-    # all snarls after checking using vcf file 
-    /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/chr1.snarl_ps_lv_at_edge.txt.gz
-
-Output:
-    /gpfs/gibbs/pi/ycgh/lushjia/project/SV/AFGR/RNA/hprc_v2/edge/my_filter/chr1.snarl_ps_lv_at_edge.not_in_vcf.txt
-
-Usage:
-    python find.not_in_vcf.AT_edge.py chr1 
-"""
-
-"""
 Replace biallelic edges by allele balance: step 2 - find allele traversal (AT)
 and edges for snarls that had no traversal in the VCF (step 1 output), by
 locating the snarl's start/end nodes along reference/haplotype paths (W lines)
