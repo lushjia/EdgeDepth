@@ -34,12 +34,18 @@ EdgeDepth is a Nextflow pipeline for measuring genotype information of pangenome
 - singularity
 - A cluster profile (`mccleary`) — adjust `executor`/`queue`/`clusterOptions` for your own cluster in `nextflow.config`.
 
+## Installation 
+Install from Github (< 1 min):        
+```
+git clone https://github.com/lushjia/EdgeDepth.git
+```
+
 ## How to run + toy example
 Each step folder has its own `README.md` with that step's specific run command and information.
 
 A small toy dataset is provided in the `data/` directory for quickly testing the pipeline end to end.
 
-Use the following commands to run the toy example:
+Use the following commands to run the toy example (each step takes 5-10 mins to finish) :               
 
 ```bash
 git clone https://github.com/lushjia/EdgeDepth.git
