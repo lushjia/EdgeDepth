@@ -30,7 +30,7 @@ EdgeDepth is a Nextflow pipeline for measuring genotype information of pangenome
 ```
 
 ## Requirements
-- [Nextflow](https://www.nextflow.io/) (DSL2)
+- [Nextflow](https://www.nextflow.io/) (v25.04.6, DSL2) (Expected to work with v24.04-v25.10. Versions 26.04 and later require the legacy parser.)
 - singularity
 - A cluster profile (`mccleary`) — adjust `executor`/`queue`/`clusterOptions` for your own cluster in `nextflow.config`.
 
