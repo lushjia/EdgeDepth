@@ -29,7 +29,8 @@ EdgeDepth is a Nextflow pipeline for measuring genotype information of pangenome
         -> variable edge [depth (norm) or allele balance] x sample matrix
 
 6_hard_genotype_optional
-    generate discrete (hard) genotype and likelihood per edge per sample from raw edge detph (optional, standalone)
+    generate discrete (hard) genotype and likelihood from raw edge detph
+    (optional, standalone)
         -> all edge [genotype] x sample matrix
 ```
 
