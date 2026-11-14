@@ -1,22 +1,15 @@
 # Hard genotype (optional)
 This is an optional step that converts raw edge depth into discrete (hard) genotypes for every edge. It is run after
-3_redundancy_filter and is independent of steps 4 and 5.
+3_redundancy_filter only to use the per chromosome raw edge depth step3 generated and is independent of steps 4 and 5.
 
 Each edge is genotyped with one of two models:
-* **Allele (multinomial) model**: within each region of the graph bounded by two GRCh38 nodes, the region is turned
-  into a directed acyclic graph. Starting with ploidy 2, the ploidy of every node is split across its outgoing edges
-  by choosing the most likely genotype given the edges' read depths. A node's ploidy is the sum of the dosages of its
-  incoming edges. The edge genotype is its dosage (0, 1, 2, ...).
-* **Copy-number (Poisson) model**: for edges inside directed cycles, edges whose depth deviates from the allele call,
-  and edges outside the regions above. The genotype is the most likely integer copy number given the edge depth and
-  the local per-haplotype depth (lambda) estimated from nearby GRCh38 nodes.
-
-When an edge has both calls, the allele dosage is reported.
+* **Allele (multinomial) model**
+* **Copy-number (Poisson) model**
 
 The pipeline outputs:
 
 * An edge-by-sample genotype matrix for each chromosome.
-* Per-sample call details (genotype, depths, likelihoods, GQ, PL) for every call.
+* Per-sample call details (Allele/CNV model and GT:AD:DP:GL:GQ:PL) for every call.
 
 ## Pipeline overview
 This pipeline performs the following steps:
@@ -34,11 +27,9 @@ This pipeline performs the following steps:
 2. Per chromosome and per batch of samples, genotype every edge of each sample:
     * Estimate lambda for each component: the median depth at the nearest ~20 GRCh38 articulation nodes, divided by 2.
     * Run the allele model over each component's DAG.
-    * Flag allele-called edges whose depth deviates from `lambda x dosage` (two-sided Poisson p < 0.01, unless
-      more than half of the component's edges deviate), and run the copy-number model on them, on cycle edges,
-      and on the edges from the last bullet of step 1.
-    * Final genotype: the allele dosage if available (uncalled allele sites give 0), otherwise the copy number,
-      or `.` if lambda could not be estimated.
+    * Run the copy-number model on cycle edges and on the edges from the last bullet of step 1.
+    * Final genotype: the allele dosage if the edge has an allele call (uncalled allele sites give 0); otherwise
+      the copy number; `.` if lambda could not be estimated.
 3. Merge the per-sample genotypes into an edge-by-sample matrix per chromosome.
 
 ## How to run the pipeline
@@ -69,7 +60,7 @@ Add `-resume` to resume from cached work after a failed or interrupted run.
 | Parameter | Input type | Description |
 |:----|:------|:----------|
 | `--chroms` | Chromosome list | Chromosomes to process. Provide a single chromosome, such as chr21, <br>or a comma-separated list, such as chr21,chr22. If not specified, <br>the default is chromosomes 1–22.|
-| `--batch_size` | Integer | Number of samples genotyped per job (default 10). Each job reads the <br>chromosome's depth file once for the whole batch. Memory scales with <br>batch size (~30 GB per 10 samples on large chromosomes). |
+| `--batch_size` | Integer | Number of samples genotyped per job (default 10). Each job loads the <br>chromosome's structure once and reads the depth file once for the whole batch. <br>Memory is mostly set by chromosome size (~30 GB on large chromosomes) <br>and grows only slightly with batch size; larger batches mean fewer, longer jobs.|
 
 More details about each step and parameter can be found in the Nextflow pipeline.
 
@@ -77,8 +68,8 @@ More details about each step and parameter can be found in the Nextflow pipeline
 The pipeline produces the following outputs:         
 1. Edge genotype matrix (`chr*.edge_genotype_matrix.tsv`)
 
-An edge-by-sample matrix (`edge_id`, one column per sample) with the hard genotype of every edge in every sample:
-allele dosage or copy number. `.` means no call (no local depth estimate). Edge ids are in canonical orientation
+An edge-by-sample matrix (`edge_id`, one column per sample) with the hard genotype of every edge in every sample. 
+`.` means no call. Edge ids are in canonical orientation
 (an edge and its reverse complement, e.g. `>13>14` and `<14<13`, are the same edge, reported starting with `>` when possible).
 
 2. Per-sample call details (`genotype_info/chr*/chr*.{sample}.edge_genotype_info.tsv`)
@@ -88,6 +79,6 @@ One row per call:
 | Column | Description |
 |:----|:----------|
 | `edges` | Allele call: comma-separated edges leaving the same node (the alleles, in GT index order). <br>CNV call: a single edge. |
-| `CALL_TYPE` | `Allele` (multinomial model) or `CNV` (copy-number model). An edge can have both; <br>the matrix reports the allele dosage. |
+| `CALL_TYPE` | `Allele` (multinomial model) or `CNV` (copy-number model). |
 | `FORMAT` | `GT:AD:DP:GL:GQ:PL` |
-| `SAMPLE` | GT: allele genotype (e.g. `0/1`, `.` if uncalled) or copy number; AD: edge depth(s); <br>DP: total depth; GL: log10 likelihoods; GQ: genotype quality; PL: phred-scaled likelihoods. |
+| `SAMPLE` | GT: allele genotype (e.g. `0/1`, `.` if uncalled) or copy number; AD: allele depth(s); <br>DP: total depth; GL: log10 likelihoods; GQ: genotype quality; PL: phred-scaled likelihoods. |
